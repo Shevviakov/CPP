@@ -6,3 +6,38 @@
 	Формат результата
 20
 */
+
+
+#include <iostream>
+#include <queue>
+
+using namespace std;
+
+int main () {
+	long int mult = 0;
+	int num, max = 0;
+	queue <int> q;
+
+	for (int i=0; i<8; i++) {
+		cin >> num;
+		q.push(num);
+	}
+
+/* 	cout << q.size() << "\n";
+	while (!q.empty()) {
+			cout << q.front() << ' ';
+			q.pop();
+	} */
+	
+
+	while (num>=0) {
+		cin >> num;
+		if (q.front() > max) max = q.front();
+		q.pop();
+		if (max*num > mult) mult = max*num;
+		q.push(num);
+	}
+	
+	cout << mult;
+	
+}
