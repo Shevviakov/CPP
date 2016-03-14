@@ -10,3 +10,27 @@
 	Примечания
 (0,0), (0,1) (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2) — 15 решений
 */
+
+
+#include <iostream>
+
+using namespace std;
+
+int main () {
+	long long N, x=0, y=0, count=0;
+
+	cin >> N;
+
+	for ( ; x*x<N; x++); 
+	
+
+	for ( ; y*y < N; y++) {
+		for ( ; x*x + y*y >= N; x--);
+		count+=x+1;
+			
+	}	
+
+	cout << count;
+
+	return 0;
+}
