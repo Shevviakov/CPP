@@ -18,6 +18,7 @@
 #include <vector>
 #include <string>
 #include <stdlib.h>
+#include <sstream>
 
 using namespace std;
 
@@ -25,30 +26,39 @@ int main () {
 	
 	vector <string> vec, stck;
 	string s;
-
+	
 	while (cin >> s) {
 		vec.push_back(s);
 	}
 	
 	for (int i=0; i<vec.size(); i++) {
-		if (vec[i] == "*") {stck.push_back("*"); continue;}
-		if (vec[i] == "/") {stck.push_back("/"); continue;}
-		if (vec[i] == "-") {stck.push_back("-"); continue;}
-		if (vec[i] == "+") {stck.push_back("+"); continue;}
 		
-		if (!atoi(stck.back())) {stck.push_back(vec[i]); continue;}
-		else {
-			/*
-			while (последний элемент число) {
-				вытащить число и знак операции
-				посчитать
-			}
-			*/
+		stck.push_back(vec[i]);
+		
+		//calculating
+		while (stck.size()>=3 && atoi(stck[stck.size()-1].c_str()) && atoi(stck[stck.size()-2].c_str())) {
+			int b = atoi(stck.back().c_str());
+			stck.pop_back();
+			
+			int a = atoi(stck.back().c_str());
+			stck.pop_back();
+			
+			string op = stck.back();
+			stck.pop_back();
+			
+			int ans;
+			
+			if (op == "+") ans = a+b;
+			if (op == "-") ans = a-b;
+			if (op == "/") ans = a/b;
+			if (op == "*") ans = a*b;
+			
+			stringstream ss;
+			ss << ans;
+			stck.push_back(ss.str());
 		}	
-		//calculating		
-		
 	}
 		
-	for (int i=0; i<stck.size(); i++) cout << stck[i] << "\n";
+	cout << stck.back();
 	return 0;
 }
