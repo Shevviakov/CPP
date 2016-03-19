@@ -19,52 +19,62 @@ x0 y0 – такое решение уравнения, что x0 минима
 
 using namespace std;
 
-void eEuclid (int*arr) { //[0] = x; [1] = y; [2] = d
-	int a, b;
+void eEuclid (long long a, long long b, long long &x, long long &y, long long &d) {
+	
+	if (a == 0) {
+		d = b;
+		x = 0;
+		y = 1;
+		return;
+	}
 
-	if (arr[0] >= arr[1]) {a = arr[0]; b = arr[1];}
-	else {b = arr[0]; a = arr[1];}
+	long long x1, y1;
 	
-	if (b == 0) {arr[0] = 1; arr[1] = 0; arr[2] = a; return;}
+	eEuclid (b%a, a, x1, y1, d);
 	
-	int arr2[3];
-	arr2[0] = b;
-	arr2[1] = a%b;
+	x = y1 - (b / a) * x1;
+	y = x1;
 	
-	eEuclid (arr2);
-	
-	arr[0] = arr2[1];
-	arr[1] = arr2[0] - arr2[1]*a/b;
-	arr[2] = arr2[2];
-	return;		
 }
 
 
-int main() {
+int main () {
 	
-	int a, b, n;
+	long long a, b, c, x, y, d;	
 
 	cin >> a;
 	cin >> b;
-	cin >> n;
-	
-	int arr[3];
+	cin >> c;
 
-	arr[0] = a;
-	arr[1] = b;
+	eEuclid (a, b, x, y, d);
 
-	eEuclid(arr);
+	if (c%d != 0) {
+		cout << "No";
+		return 0;
+	}
 	
-	int c = arr[2];
-	cout << (arr[0] = a/c) << "\n";
-	cout << (arr[1] = b/c) << "\n";
+	long long x0, y0;
 	
-	eEuclid(arr);
+	x *= c/d;
+	y *= c/d;
+
+
+	if (x <= 0) {
+		while (x <= 0) {
+			if (b/d >= 0) {x += b/d; y -= a/d;}
+			else {x -= b/d; y += a/d;}
+		}
+	} else {
+		while (x > 0) {
+			if (b/d >= 0) {x -= b/d; y += a/d;}
+			else {x += b/d; y -= a/d;}
+		}
+			if (b/d >= 0) {x += b/d; y -= a/d;}
+			else {x -= b/d; y += a/d;}
+}
+
+	cout << x << " " << y;
 	
-	
-	cout << arr[0] << "\n";
-	cout << arr[1] << "\n";
-//	cout << arr[2] << "\n";
 	
 	return 0;
 }
