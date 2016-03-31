@@ -21,7 +21,28 @@ Input	Output
 
 using namespace std;
 
-int main () {
 
+
+int main () {
+	
+	int N;
+
+	long long ans = 1;
+	
+	cin >> N;
+	
+	if (N==0) {
+		cout << 0;
+		return 0;
+	}
+
+	
+	
+	for (int i=1; i<=N; i++) {
+		ans *=
+	}
+	
+	cout << ans;
+	
 	return 0;
 }
