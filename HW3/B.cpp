@@ -18,17 +18,21 @@ Input	Output
 using namespace std;
 
 
-long num_pos (int index, deque <int> digits, bool last) {
-	long long count = 0;
+long num_pos (int index, deque <int> digits, bool isten) {
 	if (index == digits.size()) return 1;
-	if (!last)
-		for (int i=0; i<10; i++)
-			count+= num_pos (index+1, digits, false);
-	else {
-		for (int i=0; i<digits[index]; i++)
-			count+= num_pos (index+1, digits, false);
-		count+= num_pos (index+1, digits, true);
-	}		
+	long long count = 0;
+	if (index == 0) {
+		for (int i=0; i<digits[index]; i++) count += num_pos(index+1, digits, true);
+		count += num_pos(index+1, digits, false);
+		return count;
+	}
+	if (isten) {
+		for (int i=0; i<10; i++) count += num_pos(index+1, digits, true);
+	} else {
+		for (int i=0; i<digits[index]; i++) count += num_pos(index+1, digits, true);
+		count += num_pos(index+1, digits, false);
+	}
+	
 	return count;
 }
 
@@ -37,7 +41,7 @@ int main () {
 	deque <int> Ndig, Kdig;
 	
 	//INPUT
-	cin >> N >> K;
+	cin >> N;// >> K;
 	
 	
 	//K AND N NUMBERS SPELLING
@@ -48,14 +52,24 @@ int main () {
 		Ndig.push_front(num % 10);
 	}
 	
+/*
 	num = K;
 	Kdig.push_front(num%10);
 	while (num/10) {
 		num /= 10;
 		Kdig.push_front(num % 10);
 	}
+*/	
 	
-	cout << num_pos(0, Ndig, false);
+	
+	
+	
+	
+	long long count = 0;
+	
+	count = num_pos(0, Ndig, false);
+	
+	cout << count;
 	
 	
 	
