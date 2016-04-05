@@ -41,7 +41,7 @@ int main () {
 	a[0] = K;
 	for (long i=1; i<N; i++) {
 		a[i] = (unsigned int)((a[i-1]*(unsigned long long)M )&0xFFFFFFFFU);
-		
+		a[i] = a[i]%L;
 	}
 	
 	

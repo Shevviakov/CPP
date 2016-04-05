@@ -13,30 +13,65 @@ Input	Output
 */
 
 #include <iostream>
-#include <string>
-#include <sstream>
+#include <deque>
 
 using namespace std;
 
 
-int main () {
-	long N, K, pos = 0;
-	stringstream ss;
-	string numstr, Kstr;
-	
-	cin >> N >> K;
-	
-	ss << K;
-	ss >> Kstr;
-	
-	for (long i=1; i<=N; i++) {
-		stringstream ss;
-		ss << i;
-		ss >> numstr;
-		if (Kstr.compare(numstr) >= 0) pos++;
+long num_pos (int index, deque <int> digits, bool isten) {
+	if (index == digits.size()) return 1;
+	long long count = 0;
+	if (index == 0) {
+		for (int i=0; i<digits[index]; i++) count += num_pos(index+1, digits, true);
+		count += num_pos(index+1, digits, false);
+		return count;
+	}
+	if (isten) {
+		for (int i=0; i<10; i++) count += num_pos(index+1, digits, true);
+	} else {
+		for (int i=0; i<digits[index]; i++) count += num_pos(index+1, digits, true);
+		count += num_pos(index+1, digits, false);
 	}
 	
-	cout << pos;
+	return count;
+}
+
+int main () {
+	long N, K;
+	deque <int> Ndig, Kdig;
+	
+	//INPUT
+	cin >> N;// >> K;
+	
+	
+	//K AND N NUMBERS SPELLING
+	long num = N;
+	Ndig.push_front(num % 10);
+	while (num/10) {
+		num /= 10;
+		Ndig.push_front(num % 10);
+	}
+	
+/*
+	num = K;
+	Kdig.push_front(num%10);
+	while (num/10) {
+		num /= 10;
+		Kdig.push_front(num % 10);
+	}
+*/	
+	
+	
+	
+	
+	
+	long long count = 0;
+	
+	count = num_pos(0, Ndig, false);
+	
+	cout << count;
+	
+	
 	
 	return 0;
 }
