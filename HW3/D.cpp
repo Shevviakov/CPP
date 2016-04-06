@@ -25,7 +25,7 @@ Input		Output
 
 
 #include <iostream>
-#include <bitset>
+//#include <bitset>
 using namespace std;
 
 
@@ -36,7 +36,7 @@ int main () {
 	
 	cin >> N >> K >> M >> L;
 	
-	unsigned int a[N], b[N], count[2][256] = {};
+	unsigned int a[N], b[N], count1[2][256] = {}, count2[2][256] = {}, count3[2][256] = {}, count4[2][256] = {};
 
 	a[0] = K;
 	for (long i=1; i<N; i++) {
@@ -57,79 +57,46 @@ int main () {
 //++++ 8-0 bits sorting ++++	
 	for (long i=0; i<N; i++) {
 //		cout << a[i] << ' ' << (a[i] & 0x000000FFU) << "\n";
-		count[0][a[i] & 0x000000FFU]++;
+		count1[0][a[i] & 0x000000FFU]++;
+		count2[0][(a[i] >> 8) & 0x000000FFU]++;
+		count3[0][(a[i] >> 16) & 0x000000FFU]++;
+		count4[0][(a[i] >> 24)]++;
 	}
 	
-	for (int i=1; i<256; i++) count[1][i] = count[0][i-1] + count [1][i-1];
+	for (int i=1; i<256; i++) {
+		count1[1][i] = count1[0][i-1] + count1[1][i-1];
+		count2[1][i] = count2[0][i-1] + count2[1][i-1];
+		count3[1][i] = count3[0][i-1] + count3[1][i-1];
+		count4[1][i] = count4[0][i-1] + count4[1][i-1];
+	}
 //	for (int i=0; i<256; i++) if (count[0][i] || count[0][i-1]) cout << i << ' ' << count[0][i] << ' ' << count[1][i] << "\n";
 	
  
 	for (long i=0; i<N; i++) {
-		b[count[1][a[i] & 0x000000FFU]] = a[i];
-		count[1][a[i] & 0x000000FFU]++;
+		b[count1[1][a[i] & 0x000000FFU]++] = a[i];
 	}
 
-	for (int i=0; i<256; i++) count [0][i] = count [1][i] = 0;
-
-//++++ 16-9 bits sorting ++++	
 	for (long i=0; i<N; i++) {
-//		cout << b[i] << ' ' << ((b[i] >> 8) & 0x000000FFU) << "\n";
-		count[0][(b[i] >> 8) & 0x000000FFU]++;
+		a[count2[1][(b[i] >> 8) & 0x000000FFU]++] = b[i];
 	}
-	
-	for (int i=1; i<256; i++) count[1][i] = count[0][i-1] + count [1][i-1];
-//	for (int i=0; i<256; i++) if (count[0][i] || count[0][i-1]) cout << i << ' ' << count[0][i] << ' ' << count[1][i] << "\n";
-	
- 
+
 	for (long i=0; i<N; i++) {
-		a[count[1][(b[i] >> 8) & 0x000000FFU]] = b[i];
-		count[1][(b[i] >> 8) & 0x000000FFU]++;
+		b[count3[1][(a[i] >> 16) & 0x000000FFU]++] = a[i];
 	}
 
-	for (int i=0; i<256; i++) count [0][i] = count [1][i] = 0;
-
-	
-//++++ 24-17 bits sorting ++++	
 	for (long i=0; i<N; i++) {
-//		cout << a[i] << ' ' << ((a[i] >> 16) & 0x000000FFU) << "\n";
-		count[0][(a[i] >> 16) & 0x000000FFU]++;
-	}
-	
-	for (int i=1; i<256; i++) count[1][i] = count[0][i-1] + count [1][i-1];
-//	for (int i=0; i<256; i++) if (count[0][i] || count[0][i-1]) cout << i << ' ' << count[0][i] << ' ' << count[1][i] << "\n";
-	
- 
-	for (long i=0; i<N; i++) {
-		b[count[1][(a[i] >> 16) & 0x000000FFU]] = a[i];
-		count[1][(a[i] >> 16) & 0x000000FFU]++;
+		if ((count4[1][b[i] >> 24]++) % 2 == 0) sum+= b[i];
+//		a[count4[1][b[i] >> 24]++] = b[i];
 	}
 
-	for (int i=0; i<256; i++) count [0][i] = count [1][i] = 0;
-	
-
-//++++ 32-25 bits sorting ++++	
-	for (long i=0; i<N; i++) {
-		//cout << (a[i] >> 24) << "\n";
-		count[0][(b[i] >> 24)]++;
-	}
-	
-	for (int i=1; i<256; i++) count[1][i] = count[0][i-1] + count [1][i-1];
-//	for (int i=0; i<256; i++) if (count[0][i] || count[0][i-1]) cout << i << ' ' << count[0][i] << ' ' << count[1][i] << "\n";
-	
- 
-	for (long i=0; i<N; i++) {
-		a[count[1][b[i] >> 24]] = b[i];
-		count[1][b[i] >> 24]++;
-	}
-
-
+/*
 	for (long i=0; i<N; i+=2) {
 //		count[(a[i] >> 16) & 0x000000FFU]++;
 //		bitset<32> bst (a[i]);
 //i		cout << bst << ' '<< (a[i]) << "\n";
 		sum+=a[i];
 	}
-	
+*/	
 	sum = sum%L;
 	cout << sum;
 	return 0;
