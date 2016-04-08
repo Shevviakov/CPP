@@ -18,4 +18,26 @@ Input	Output
 	6
 */
 
+#include <iostream>
 
+
+using namespace std;
+
+int main () {
+	
+	int N, K;
+	long long M=0, left=0, right=0;
+	
+	cin >> N >> K;
+	
+	int wires[N];
+	
+	for (int i=0; i<N; i++) {
+		cin >> wires[i];
+		right+=wires[i];
+	}
+	
+	for (int i=0; i<N; i++) cout << wires[i] << ' ';
+	cout << right;
+	return 0;
+}
