@@ -19,9 +19,24 @@ Input	Output
 */
 
 #include <iostream>
-
+#include <algorithm>
 
 using namespace std;
+
+void wireLength (int wires[], int N, int K, long long left, long long right, long long &M) {
+	int center = (right-left)/2 + left;
+	if (center == left) return;
+	int count = 0;
+	
+	for (int i=0; i<N && wires[i]>=center; i++) count += wires[i]/center;
+	
+	if (count >= K) {
+		if (center > M) M = center;
+		wireLength(wires, N, K, center, right, M);
+	} else {
+		wireLength(wires, N, K, left, center, M);
+	}
+}
 
 int main () {
 	
@@ -37,7 +52,12 @@ int main () {
 		right+=wires[i];
 	}
 	
-	for (int i=0; i<N; i++) cout << wires[i] << ' ';
-	cout << right;
+	sort(wires, wires+N);
+	reverse(wires, wires+N);
+	
+	wireLength(wires, N, K, left, right, M);
+	
+//	for (int i=0; i<N; i++) cout << wires[i] << ' ';
+	cout << M;
 	return 0;
 }
