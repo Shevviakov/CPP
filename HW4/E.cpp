@@ -66,3 +66,80 @@ op3
 		op3 0
 */
 
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class oper {
+	public:
+		string name;
+		int stations;
+};
+
+class baseStation {
+	public:
+	string oper;
+	long X, Y, R;
+	
+	void set (string op, long cX, long cY, long cR) {
+		oper = op;
+		X = cX;
+		Y = cY;
+		R = cR;
+	}
+};
+
+void addStation (vector <oper> &opers, baseStation bst, long clientX, long clientY) {
+	for (int i=0; i<opers.size(); i++) {
+		if (bst.oper == opers[i].name) {
+			if ((clientX-bst.X)*(clientX-bst.X)+(clientY-bst.Y)*(clientY-bst.Y) <= bst.R*bst.R) {opers[i].stations++; return;}
+
+		cout << "(clientX  clientY) = " << clientX << ' ' << clientY << endl;
+		cout << "(bst.X bst.Y) = " << bst.X << ' ' << bst.Y << endl;
+		cout << "(clientX-bst.X) = " << (clientX-bst.X) << endl;
+		cout << "(clientY-bst.Y) = " << (clientY-bst.Y) << endl;
+		
+	}
+	}
+	oper op;
+	op.name = bst.oper;
+	op.stations = 0;
+	if ((clientX-bst.X)*(clientX-bst.X)+(clientY-bst.Y)*(clientY-bst.Y) <= bst.R*bst.R) {op.stations++;}
+	opers.push_back(op);
+}	
+
+int main () {
+
+	string str;
+	vector <baseStation> arr;
+	vector <oper> opers;
+	baseStation bst;
+
+	int N;
+	long X, Y, R;
+	long clientX, clientY;
+	
+	cin >> N;
+
+	
+	for (int i=0; i<N; i++) {
+		cin >> str;
+		cin >> X >> Y >> R;
+		bst.set (str, X, Y, R);
+		arr.push_back(bst);
+	}
+
+	cin >> clientX >> clientY;
+/*	
+	for (int i=0; i<N; i++) {
+		addStation (opers, arr[i], clientX, clientY);
+	}	
+	
+	cout << opers.size() << endl;
+	for (int i=0; i<opers.size(); i++) cout << opers[i].name << ' ' << opers[i].stations << endl; 
+*/	
+	return 0;
+}
+
