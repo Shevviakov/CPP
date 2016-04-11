@@ -10,17 +10,17 @@
 	Input format
 N
 name1
-X1 Y1 R1
+X1 Y1 R1
 ...
 namen
 Xn Yn Zn
 Xa Ya
 	Output format
 K
-name1 c1
-name2 c2
+name1 c1
+name2 c2
 ...
-nameK cK
+nameK cK
 	Examples
 Input		Output
 8
@@ -92,17 +92,12 @@ class baseStation {
 };
 
 void addStation (vector <oper> &opers, baseStation bst, long clientX, long clientY) {
-	for (int i=0; i<opers.size(); i++) {
-		if (bst.oper == opers[i].name) {
-			if ((clientX-bst.X)*(clientX-bst.X)+(clientY-bst.Y)*(clientY-bst.Y) <= bst.R*bst.R) {opers[i].stations++; return;}
-
-		cout << "(clientX  clientY) = " << clientX << ' ' << clientY << endl;
-		cout << "(bst.X bst.Y) = " << bst.X << ' ' << bst.Y << endl;
-		cout << "(clientX-bst.X) = " << (clientX-bst.X) << endl;
-		cout << "(clientY-bst.Y) = " << (clientY-bst.Y) << endl;
-		
-	}
-	}
+	for (int i=0; i<opers.size(); i++) 
+		if (bst.oper == opers[i].name) { 
+			if ((clientX-bst.X)*(clientX-bst.X)+(clientY-bst.Y)*(clientY-bst.Y) <= bst.R*bst.R) opers[i].stations++;
+			return;
+		}
+	
 	oper op;
 	op.name = bst.oper;
 	op.stations = 0;
@@ -132,14 +127,17 @@ int main () {
 	}
 
 	cin >> clientX >> clientY;
-/*	
+	
+	
+	
+	
 	for (int i=0; i<N; i++) {
 		addStation (opers, arr[i], clientX, clientY);
 	}	
 	
 	cout << opers.size() << endl;
 	for (int i=0; i<opers.size(); i++) cout << opers[i].name << ' ' << opers[i].stations << endl; 
-*/	
+	
 	return 0;
 }
 
